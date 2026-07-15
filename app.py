@@ -1,25 +1,26 @@
 from flask import Flask, request, jsonify
+
 app = Flask(__name__)
-# 根路径测试
+
+# 首页路由
 @app.route('/')
-def home():
-    return 'Flask服务运行正常！'
-# 示例接口：GET请求
-@app.route('/api/hello', methods=['GET'])
+def index():
+    return "Flask服务运行正常！"
+
+# GET问候接口
+@app.route('/api/hello')
 def hello():
-    name = request.args.get('name', '世界')
+    name = request.args.get("name", "访客")
     return jsonify({
-        'code': 200,
-        'message': f'你好，{name}！'
+        "code": 200,
+        "message": f"你好{name}"
     })
-# 示例接口：POST请求
-@app.route('/api/data', methods=['POST'])
-def receive_data():
-    data = request.get_json()
-    return jsonify({
-        'code': 200,
-        'received': data
-    })
-# 本地调试用，Render部署不会执行
+
+# POST接收数据接口
+@app.route('/api/data', methods=["POST"])
+def data():
+    return jsonify({"code": 200, "msg": "接收数据成功"})
+
+# Render部署固定写法，不要改动
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(host="0.0.0.0", port=5000)
